@@ -1,27 +1,27 @@
 const mongodb = require('../db/mongo');
 const ObjectId = require('mongodb').ObjectId;
 
-// const getAllData = async (req, res, next) => {
-//   //#swagger.tags = ['Professional']
-//   const result = await mongodb.getDb().db('cse341_personal').collection('carbrands').find();
-//   result.toArray().then((lists) => {
-//     res.setHeader('Content-Type', 'application/json');
-//     res.status(200).json(lists);
-//   });
-// };
+const getAllData = async (req, res, next) => {
+  //#swagger.tags = ['Carbrands']
+  const result = await mongodb.getDb().db('cse341_personal').collection('carbrands').find();
+  result.toArray().then((lists) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(lists);
+  });
+};
 
-// const getData = async (req, res) => {
-//   //#swagger.tags = ['Professional']
-//   const id = new ObjectId(req.params.id);
-//   const result = await mongodb.getDb().db('cse341_personal').collection('carbrands').find({ _id: id });
-//   result.toArray().then((lists) => {
-//     res.setHeader('Content-Type', 'application/json');
-//     res.status(200).json(lists[0]);
-//   });
-// };
+const getData = async (req, res) => {
+  //#swagger.tags = ['Carbrands']
+  const id = new ObjectId(req.params.id);
+  const result = await mongodb.getDb().db('cse341_personal').collection('carbrands').find({ _id: id });
+  result.toArray().then((lists) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(lists[0]);
+  });
+};
 
 const createData = async (req, res, next) => {
-  //#swagger.tags = ['carbrands']
+  //#swagger.tags = ['Carbrands']
   const carbrand = {
     model: req.body.carModel,
     productionYear: req.body.productionYear,
@@ -39,7 +39,7 @@ const createData = async (req, res, next) => {
 
 
 const updateData = async (req, res, next) => {
-  //#swagger.tags = ['carbrands']
+  //#swagger.tags = ['Carbrands']
   const id = new ObjectId(req.params.id);
   const carbrand = {
     model: req.body.carModel,
@@ -57,6 +57,7 @@ const updateData = async (req, res, next) => {
 };
 
 const deleteData = async (req, res, next) => {
+  //#swagger.tags = ['Carbrands']
   const id = new ObjectId(req.params.id);
   const response = await mongodb.getDb().db('cse341_personal').collection('carbrands').deleteOne({ _id: id });
   if (response.deletedCount > 0) {
@@ -67,8 +68,8 @@ const deleteData = async (req, res, next) => {
 };
 
 module.exports = {
-  // getAllData,
-  // getData,
+  getAllData,
+  getData,
   createData,
   updateData,
   deleteData

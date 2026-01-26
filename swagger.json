@@ -33,9 +33,23 @@
       }
     },
     "/carbrands/": {
+      "get": {
+        "tags": [
+          "Carbrands"
+        ],
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "post": {
         "tags": [
-          "carbrands"
+          "Carbrands"
         ],
         "description": "",
         "parameters": [
@@ -75,9 +89,31 @@
       }
     },
     "/carbrands/{id}": {
+      "get": {
+        "tags": [
+          "Carbrands"
+        ],
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "put": {
         "tags": [
-          "carbrands"
+          "Carbrands"
         ],
         "description": "",
         "parameters": [
@@ -122,6 +158,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Carbrands"
+        ],
         "description": "",
         "parameters": [
           {
