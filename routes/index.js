@@ -7,5 +7,6 @@ router.get('/', (req, res) => {
 });
 
 router.use('/carbrands', require('./carbrands'));
+router.use('/country', require('./country'));
 
 module.exports = router;

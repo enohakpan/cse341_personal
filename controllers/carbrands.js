@@ -44,7 +44,7 @@ const createData = async (req, res, next) => {
     
     const response = await mongodb.getDb().db('cse341_personal').collection('carbrands').insertOne(carbrand);
     if (response.acknowledged) {
-      res.status(201).json(response);
+      res.status(200).json(response);
     } else {
       res.status(500).json({ error: 'Failed to create carbrand' });
     }
@@ -79,7 +79,7 @@ const updateData = async (req, res, next) => {
     
     const response = await mongodb.getDb().db('cse341_personal').collection('carbrands').replaceOne({ _id: id }, carbrand);
     if (response.modifiedCount > 0) {
-      res.status(204).send();
+      res.status(200).send();
     } else {
       res.status(500).json({ error: 'Failed to update carbrand' });
     }
