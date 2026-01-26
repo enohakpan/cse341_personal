@@ -22,37 +22,69 @@ const getData = async (req, res) => {
 
 const createData = async (req, res, next) => {
   //#swagger.tags = ['Carbrands']
-  const carbrand = {
-    model: req.body.carModel,
-    productionYear: req.body.productionYear,
-    color: req.body.color,
-    manufacturer: req.body.manufacturer,
-    imageUrl: req.body.imageUrl
-  };
-  const response = await mongodb.getDb().db('cse341_personal').collection('carbrands').insertOne(carbrand);
-  if (response.acknowledged) {
-    res.status(201).json(response);
-  } else {
-    res.status(500).json(response.error || 'Some error occurred while creating the contact. Please try again later, thank you');
+  try {
+    // Data validation
+    const { carModel, productionYear, color, manufacturer, imageUrl } = req.body;
+    
+    if (!carModel || !productionYear || !color || !manufacturer) {
+      return res.status(400).json({ error: 'Missing required fields: carModel, productionYear, color, manufacturer' });
+    }
+    
+    if (typeof productionYear !== 'number' || productionYear < 1900 || productionYear > new Date().getFullYear()) {
+      return res.status(400).json({ error: 'Invalid production year' });
+    }
+    
+    const carbrand = {
+      model: carModel,
+      productionYear,
+      color,
+      manufacturer,
+      imageUrl: imageUrl || ''
+    };
+    
+    const response = await mongodb.getDb().db('cse341_personal').collection('carbrands').insertOne(carbrand);
+    if (response.acknowledged) {
+      res.status(201).json(response);
+    } else {
+      res.status(500).json({ error: 'Failed to create carbrand' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error while creating carbrand' });
   }
 };
 
 
 const updateData = async (req, res, next) => {
   //#swagger.tags = ['Carbrands']
-  const id = new ObjectId(req.params.id);
-  const carbrand = {
-    model: req.body.carModel,
-    productionYear: req.body.productionYear,
-    color: req.body.color,
-    manufacturer: req.body.manufacturer,
-    imageUrl: req.body.imageUrl
-  };
-  const response = await mongodb.getDb().db('cse341_personal').collection('carbrands').replaceOne({ _id: id }, carbrand);
-  if (response.modifiedCount > 0) {
-    res.status(204).send();
-  } else {
-    res.status(500).json(response.error || 'Error updating contact.');
+  try {
+    // Data validation
+    const { carModel, productionYear, color, manufacturer, imageUrl } = req.body;
+    
+    if (!carModel || !productionYear || !color || !manufacturer) {
+      return res.status(400).json({ error: 'Missing required fields: carModel, productionYear, color, manufacturer' });
+    }
+    
+    if (typeof productionYear !== 'number' || productionYear < 1900 || productionYear > new Date().getFullYear()) {
+      return res.status(400).json({ error: 'Invalid production year' });
+    }
+    
+    const id = new ObjectId(req.params.id);
+    const carbrand = {
+      model: carModel,
+      productionYear,
+      color,
+      manufacturer,
+      imageUrl: imageUrl || ''
+    };
+    
+    const response = await mongodb.getDb().db('cse341_personal').collection('carbrands').replaceOne({ _id: id }, carbrand);
+    if (response.modifiedCount > 0) {
+      res.status(204).send();
+    } else {
+      res.status(500).json({ error: 'Failed to update carbrand' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error while updating carbrand' });
   }
 };
 
